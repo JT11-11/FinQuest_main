@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/content.css') }}">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #2d3748; 
+            color: #e2e8f0; 
+            padding-top: 1rem;
+        }
+        .sidebar a {
+            display: block;
+            padding: 1rem;
+            color: #e2e8f0;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #4a5568; 
+        }
+        .content {
+            margin-left: 250px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="sidebar">
+        <div class="logo px-4 py-2 text-xl font-bold">
+            <a href="/" class="text-white">FinQuest</a>
+        </div>
+        <a href="/home">Home</a>
+        <a href="/content">Articles</a>
+        <a href="/quiz_home">Quizzes</a>
+        </a>
+    </div>
+    <div class="content container mx-auto p-6">
+        {% for thread in threads %}
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ thread.title }}</h1>
+            <footer class="text-sm text-gray-500 mb-4">Recommended age: {{ thread.age }}</footer>
+            <p class="text-gray-700 mb-4">{{ thread.description }}</p>
+            <a href="/post?number={{ thread.post }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Read</a>
+            <footer class="text-sm text-gray-500 mt-4">Last Updated: {{ thread.date_updated }}</footer>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

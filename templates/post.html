@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+    <title>Post</title>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+<div class="flex">
+    <!-- Sidebar -->
+    <nav class="w-1/5 min-h-screen bg-gray-800 p-5">
+        <a href="/content" class="block text-white py-2 px-4 bg-blue-600 rounded hover:bg-blue-700 mb-4 text-center">
+            Back
+        </a>
+        {% for post in posts %}
+            <a href="#{{ post.page }}" class="block py-2 px-4 rounded text-gray-400 hover:text-white hover:bg-gray-700">
+                {{ post.nav }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    <div class="w-4/5 p-6">
+        {% for post in posts %}
+        <div id="{{ post.page }}" class="mb-8 bg-white shadow-lg rounded-lg p-6">
+            <h1 class="text-3xl font-bold text-blue-700 mb-4">{{ post.title }}</h1>
+            
+            {% if post.iframe %}
+                <div class="relative w-full mb-6" style="padding-top: 56.25%;"> <!-- 16:9 aspect ratio -->
+                    <iframe src="{{ post.video }}" class="absolute top-0 left-0 w-full h-full" frameborder="0" allowfullscreen></iframe>
+                </div>
+            {% else %}
+                {% if post.image_show %}
+                    <img src="{{ post.image }}" alt="Not Found" class="w-full h-auto object-cover rounded-lg mb-6">
+                    <footer class="text-gray-500 text-sm mt-2">From {{ post.citation }}</footer>
+                {% endif %}
+            {% endif %}
+            
+            <div class="text-gray-700 space-y-4 mb-6">
+                {% for text in post.content %}
+                    <p>{{ text }}</p>
+                {% endfor %}
+            </div>
+
+            {% if post.link %}
+                <div class="space-y-2">
+                    {% for website, name in post.links %}
+                        <a href="{{ website }}" class="text-blue-500 hover:underline" target="_blank">{{ name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <footer class="text-gray-500 text-sm mt-4">
+                Last Updated: {{ post.date_updated }}
+            </footer>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
+
