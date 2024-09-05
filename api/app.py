@@ -437,7 +437,3 @@ def post():
 @app.route('/home')
 def homne():
     return render_template('homepg.html')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
